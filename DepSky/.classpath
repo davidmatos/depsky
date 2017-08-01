@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-7-openjdk-amd64"/>
 	<classpathentry kind="lib" path="lib/aws-java-sdk-1.7.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-io-1.4.jar"/>
@@ -25,5 +24,6 @@
 	<classpathentry kind="lib" path="lib/RackSpaceDriver.jar"/>
 	<classpathentry kind="lib" path="lib/WindowsAzureDriver.jar"/>
 	<classpathentry kind="lib" path="lib/DepSkyDependencies.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

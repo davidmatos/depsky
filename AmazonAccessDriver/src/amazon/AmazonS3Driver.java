@@ -45,7 +45,51 @@ public class AmazonS3Driver implements IDepSkySDriver{
 	private String accessKey, secretKey;
 	private String location;
 	private Region region = null;
+	private String amazonS3Url = "http://s3.amazonaws.com";
 
+	/**
+	 * Constructor with the new amazonS3Url argument
+	 * @param driverId
+	 * @param accessKey
+	 * @param secretKey
+	 * @param amazonS3Url
+	 */
+	public AmazonS3Driver(String driverId, String accessKey, String secretKey, String amazonS3Url) {
+		this.amazonS3Url = amazonS3Url;
+		this.driverId = driverId;
+		this.accessKey = accessKey;
+		this.secretKey = secretKey;
+		try {
+			getBucketName();
+		} catch (FileNotFoundException e) {
+			System.out.println("Problem with bucket_name.properties file!");
+			//e.printStackTrace();
+		}
+
+		if(driverId.equals("cloud1")){
+			defaultBucketName = defaultBucketName.concat("-coc1");
+			location = "-coc1";
+			region = Region.US_Standard;
+		}else if(driverId.equals("cloud2")){
+			defaultBucketName = defaultBucketName.concat("-coc2");
+			location = "-coc2";
+			region = Region.EU_Ireland;
+		}else if(driverId.equals("cloud3")){
+			defaultBucketName = defaultBucketName.concat("-coc3");
+			location = "-coc3";
+			region = Region.US_West;
+		}else if(driverId.equals("cloud4")){
+			defaultBucketName = defaultBucketName.concat("-coc4");
+			location = "-coc4";
+			region = Region.AP_Tokyo;
+		}else if(driverId.equals("amazon")){
+			defaultBucketName = defaultBucketName.concat("-publiccloud");
+			location = "-publiccloud";
+			region = Region.EU_Ireland;
+		}
+	}
+	
+	
 	/**
 	 * Class that interact directly with amazon s3 api 
 	 * 
@@ -97,7 +141,7 @@ public class AmazonS3Driver implements IDepSkySDriver{
 			PropertiesCredentials b = new PropertiesCredentials( new ByteArrayInputStream(mprops.getBytes()));
 
 			conn = new AmazonS3Client(b);		
-			conn.setEndpoint("http://s3.amazonaws.com"); //Para virtual Box funcionar
+			conn.setEndpoint(amazonS3Url); //Para virtual Box funcionar
 
 			if(!conn.doesBucketExist(defaultBucketName)){
 				conn.createBucket(defaultBucketName, region);

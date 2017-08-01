@@ -107,7 +107,7 @@ public class LocalDepSkySClient implements IDepSkySProtocol{
 				e.printStackTrace();
 			}
 			this.drivers = new IDepSkySDriver[4];
-			String type = null, driverId = null, accessKey = null, secretKey = null;
+			String type = null, driverId = null, accessKey = null, secretKey = null, serviceUrl = null;
 			for(int i = 0 ; i < credentials.size(); i++){
 				for(String[] pair : credentials.get(i)){
 					if(pair[0].equalsIgnoreCase("driver.type")){
@@ -118,9 +118,16 @@ public class LocalDepSkySClient implements IDepSkySProtocol{
 						accessKey = pair[1];
 					}else if(pair[0].equalsIgnoreCase("secretKey")){
 						secretKey = pair[1];
+					}else if(pair[0].equalsIgnoreCase("serviceUrl")){
+						serviceUrl = pair[1];
 					}
 				}
-				drivers[i] = DriversFactory.getDriver(type, driverId, accessKey, secretKey);
+				if(type.equals("AMAZON-S3") && serviceUrl != null){	
+					drivers[i] = DriversFactory.getDriver(type, driverId, accessKey, secretKey, serviceUrl);
+					System.out.println("Using a specific Amazon S3 provider: " + serviceUrl);
+				}else{
+					drivers[i] = DriversFactory.getDriver(type, driverId, accessKey, secretKey);
+				}
 			}
 		}	
 		this.manager = new DepSkySManager(drivers, this, keyLoader);
